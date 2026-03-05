@@ -16,24 +16,48 @@ function randomID(){
     return id
 }
 
-function displayBook(){
-    const div = document.getElementById("booklist")
-    for (let i = 0; i < myLibrary.length; i++){
-        const p = document.createElement("p");
-        p.textContent = `Title: ${myLibrary[i].title} ID: ${myLibrary[i].id}\n`;
-        div.appendChild(p);
-    }
+function displayBook(x){
+    const div = document.getElementById("booklist"); 
+    const bookdiv = document.createElement("div");
+    bookdiv.classList.add("book-entry");
+
+    const p = document.createElement("p");
+    p.textContent = `Title: ${x.title} | Author: ${x.author} | Pages: ${x.pages} | Read Status: Unread`;    
+    
+    const btn2 = document.createElement("button");
+    btn2.textContent = "Remove Book from Library";
+    btn2.dataset.id = x.id;
+    btn2.addEventListener("click", () => {
+        const index = myLibrary.findIndex(book => book.id == Number(btn2.dataset.id));
+        myLibrary.splice(index, 1);
+
+        bookdiv.remove();
+    })
+
+    const btn3 = document.createElement("button")
+    btn3.textContent = "Mark as Read"
+    btn3.addEventListener("click", () => {
+        x.readStatus = 1;
+        p.textContent = `Title: ${x.title} | Author: ${x.author} | Pages: ${x.pages} | Read Status: Read`;    
+    })
+    bookdiv.appendChild(p);
+    bookdiv.appendChild(btn2);
+    bookdiv.appendChild(btn3);
+
+    div.appendChild(bookdiv);
 }
 
-const button = document.getElementById("button1")
-button.addEventListener("click", () => {
+const button1 = document.getElementById("button1")
+button1.addEventListener("click", () => {
     let title = prompt("Enter book title: ");
     let author = prompt("Enter book author: ");
     let pages = prompt("Enter number of pages: ");
     const book = new Book(title, author, pages, 0, randomID());
     addBookToLibrary(book);
-    displayBook();
+    displayBook(book);
 });
+
+
 /*
 function test(){
     const book1 = new Book("1984", "George Orwell", 328, "Unread", randomID());
