@@ -17,16 +17,23 @@ function randomID(){
 }
 
 function displayBook(){
+    const div = document.getElementById("booklist")
     for (let i = 0; i < myLibrary.length; i++){
-        console.log(`Title: ${myLibrary[i].title} ID: ${myLibrary[i].id}\n`);
+        const p = document.createElement("p");
+        p.textContent = `Title: ${myLibrary[i].title} ID: ${myLibrary[i].id}\n`;
+        div.appendChild(p);
     }
 }
 
 const button = document.getElementById("button1")
 button.addEventListener("click", () => {
-    prompt()
+    let title = prompt("Enter book title: ");
+    let author = prompt("Enter book author: ");
+    let pages = prompt("Enter number of pages: ");
+    const book = new Book(title, author, pages, 0, randomID());
+    addBookToLibrary(book);
+    displayBook();
 });
-
 /*
 function test(){
     const book1 = new Book("1984", "George Orwell", 328, "Unread", randomID());
